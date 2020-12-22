@@ -29,7 +29,11 @@ app.get("/api/timestamp/:date", (req, res) => {
   let dateObj;
   if (reqTimestamp) dateObj = new Date(reqTimestamp);
   else dateObj = new Date(reqDate);
-  res.json({ unix: dateObj.getTime(), utc: dateObj.toUTCString() });
+  const utc = dateObj.toUTCString();
+  const unix = dateObj.getTime();
+  if (!unix || !utc || utc === "Invalid Date")
+    res.json({ error: "Invalid Date" });
+  res.json({ unix, utc });
 });
 
 // listen for requests :)
