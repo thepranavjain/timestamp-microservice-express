@@ -25,7 +25,10 @@ app.get("/api/hello", (req, res) => {
 
 app.get("/api/timestamp/:date", (req, res) => {
   const reqDate = req.params.date;
-  const dateObj = new Date(reqDate);
+  const reqTimestamp = Number(reqDate);
+  let dateObj;
+  if (reqTimestamp) dateObj = new Date(reqTimestamp);
+  else dateObj = new Date(reqDate);
   res.json({ unix: dateObj.getTime(), utc: dateObj.toUTCString() });
 });
 
